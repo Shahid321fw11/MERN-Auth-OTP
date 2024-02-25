@@ -1,12 +1,18 @@
 const express = require("express");
-const dbConnection = require("./config/database");
+const app = express();
+const userRoutes = require("./routes/userRoutes");
+
 const dotenv = require("dotenv");
 dotenv.config();
+const PORT = process.env.PORT || 3000;
 
-const app = express();
-const PORT = 3000;
-dbConnection();
 app.use(express.json());
+
+//calling Database function for connection
+const dbConnection = require("./config/database");
+dbConnection();
+
+app.use("/", userRoutes);
 
 // start the server
 app.listen(PORT, () => {
